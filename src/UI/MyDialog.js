@@ -1,7 +1,8 @@
 import React from "react";
 import Dialog from '@material-ui/core/Dialog';
 
-function MyModal(props) {
+
+function MyDialog(props) {
   return (
     <Dialog
       className="modal"
@@ -16,4 +17,4 @@ function MyModal(props) {
   );
 }
 
-export default MyModal
+export default MyDialog

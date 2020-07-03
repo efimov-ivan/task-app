@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import store from "./store";
 import { observer } from "mobx-react";
-import Tasks from "./Components/Tasks";
+import Tasks from "./Components/Task/Tasks";
 
 function App() {
   const { tasks } = store

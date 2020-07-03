@@ -10,8 +10,6 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.1",
     "draft-js": "^0.11.6",
-    "lodash-es": "^4.17.15",
-    "lodash-move": "^1.1.1",
     "mobx": "^5.15.1",
     "mobx-react": "^6.1.4",
     "node-sass": "^4.14.1",

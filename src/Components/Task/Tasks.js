@@ -1,10 +1,7 @@
 import React, { useState, Fragment } from "react";
-import { observer } from "mobx-react";
-// import store from "../store";
 import TaskForm from "./TaskForm";
-
 import Add from "@material-ui/icons/Add";
-import MyModal from "../UI/MyModal";
+import MyDialog from "../../UI/MyDialog";
 import TaskCard from "./TaskCard";
 
 const Tasks = ({ tasks, col }) => {
@@ -60,7 +57,6 @@ const Tasks = ({ tasks, col }) => {
 
   return (
     <div className="tasks-box">
-  
       <div className="tasks-heading">
         {returnHeadings(col)}
       </div>
@@ -73,7 +69,7 @@ const Tasks = ({ tasks, col }) => {
         )}
       </div>
 
-      <MyModal open={openModal} handleClose={closeModal}>
+      <MyDialog open={openModal} handleClose={closeModal}>
         {action === "AddTask" ? (
           <TaskForm handleClose={closeModal} col={1}></TaskForm>
         ) : action === "AddQuestion" ? (
@@ -81,10 +77,10 @@ const Tasks = ({ tasks, col }) => {
         ) : (
           <TaskCard handleClose={closeModal} task={currentTask}></TaskCard>
         )}
-      </MyModal>
+      </MyDialog>
 
     </div>
   );
 };
 
-export default observer(Tasks);
+export default Tasks;

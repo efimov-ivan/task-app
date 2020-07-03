@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { observer } from "mobx-react";
 import Button from "@material-ui/core/Button";
 import {AddComment, AccountCircle} from '@material-ui/icons';
-import ActionButton from '../ActionButton'
+import ActionButton from '../../UI/ActionButton'
 import TextField from "@material-ui/core/TextField";
 import store from "../../store"
 

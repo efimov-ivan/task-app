@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment } from "react";
-import { observer } from "mobx-react";
-import ActionButton from './ActionButton'
-// import CardActions from "@material-ui/core/CardActions";
+import Comment from '../Comment/Comment'
+import MyEditor from '../../UI/MyEditor'
+import ActionButton from '../../UI/ActionButton'
 import Select from '@material-ui/core/Select';
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,13 +9,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import {Delete, Save} from '@material-ui/icons';
-// import {CheckCircle, Close, MoreVert} from '@material-ui/icons';
-// import lightGreen from '@material-ui/core/colors/lightGreen';
-import MyEditor from '../UI/MyEditor'
-import Comment from './Comment/Comment'
-import store from "../store";
-
 import MenuItem from '@material-ui/core/MenuItem';
+import { observer } from "mobx-react";
+import store from "../../store";
 
 const TaskCard = props => {
 
@@ -32,6 +28,7 @@ const TaskCard = props => {
   const moveTask = e => {
     setMoveTo(e.target.value)
     updateTask({col: e.target.value})
+    props.handleClose()
   }
 
   const deleteTask = () => {
@@ -41,21 +38,19 @@ const TaskCard = props => {
 
   const updateTask = (values) => {
     store.updateTask({...props.task, ...values});
-    //props.handleClose();
   };
 
   useEffect(() => {
     store.getComments(props.task.key);
   }, [props.task.key]);
 
-  const getMoveItems = (col) => {
+  const SelectMoveItems = (col) => {
     const items = {
       'Move to': 3, 
       'Tasks': 1,
       'Question': 2,
       'Completed': 0,
     }
-
     return Object.keys(items).map((val, i) => (
       <MenuItem 
         value={items[val]} 
@@ -65,7 +60,6 @@ const TaskCard = props => {
         {val}
       </MenuItem>
     ))
-
   }
 
   return (
@@ -77,11 +71,7 @@ const TaskCard = props => {
           action={
             <Fragment>
               <Select value={moveTo} variant="outlined" onChange={moveTask}>
-                {getMoveItems(props.task.col)}
-                {/* <MenuItem value="empty" disabled={true}>Move to</MenuItem>
-                <MenuItem value={0} {...props.task.col === 0 ? null : null}>Completed</MenuItem>
-                <MenuItem value={1}>Tasks</MenuItem>
-                <MenuItem value={2}>Question</MenuItem> */}
+                {SelectMoveItems(props.task.col)}
               </Select>
               <ActionButton 
                 icon={<Save />} 
