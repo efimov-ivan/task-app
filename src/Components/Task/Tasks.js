@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from "react";
-import TaskForm from "./TaskForm";
-import Add from "@material-ui/icons/Add";
-import MyDialog from "../../UI/MyDialog";
 import TaskCard from "./TaskCard";
+import TaskForm from "./TaskForm";
+import MyDialog from "../../UI/MyDialog";
+import Add from "@material-ui/icons/Add";
 
 const Tasks = ({ tasks, col }) => {
 

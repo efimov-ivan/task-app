@@ -1,11 +1,8 @@
 import React, { useState } from "react"
-import DialogTitle from "@material-ui/core/DialogTitle";
-import CardHeader from "@material-ui/core/CardHeader";
-import ActionButton from '../../UI/ActionButton'
-import DialogContent from "@material-ui/core/DialogContent";
-import TextField from "@material-ui/core/TextField"
-import MyEditor from '../../UI/MyEditor'
+import {DialogTitle, CardHeader, DialogContent, TextField} from "@material-ui/core";
 import {Save} from '@material-ui/icons';
+import ActionButton from '../../UI/ActionButton'
+import MyEditor from '../../UI/MyEditor'
 import store from "../../store"
 import { observer } from "mobx-react"
 
@@ -17,9 +14,11 @@ const TaskForm = props => {
   })
 
   const handleSaveTask = () => {
-    store.addTask(formValues);
-    setFormValues({ title: '', content: '' });
-    props.handleClose();
+    if(formValues.title) {
+      store.addTask(formValues);
+      setFormValues({ title: '', content: '' });
+      props.handleClose();
+    }
   };
 
   return (

@@ -1,22 +1,25 @@
 import React, { Fragment, useState } from 'react'
-import { observer } from "mobx-react";
-import Button from "@material-ui/core/Button";
-import {AddComment, AccountCircle} from '@material-ui/icons';
+import { observer } from "mobx-react"
+import Button from "@material-ui/core/Button"
+import {AddComment, AccountCircle} from '@material-ui/icons'
 import ActionButton from '../../UI/ActionButton'
-import TextField from "@material-ui/core/TextField";
+import TextField from "@material-ui/core/TextField"
 import store from "../../store"
 
 const Comment = ({taskKey}) => {
 
-  const { comments, loadingComments } = store;
+  const { comments } = store;
+
   const [showCommentForm, setShowCommentForm] = useState(false)
 
   const [commentValue, setCommentValue] = useState('')
 
   const postComment = () => {
-    store.postComment(taskKey, commentValue);
-    setCommentValue('')
-  };
+    if(commentValue) {
+      store.postComment(taskKey, commentValue);
+      setCommentValue('')
+    }
+  }
 
   const deleteComment = (commentKey) => {
     store.deleteComments(taskKey, commentKey)
@@ -25,27 +28,25 @@ const Comment = ({taskKey}) => {
   return (
     <Fragment>
       <div className="comments-list">
-        { loadingComments
-          ? null
-          : comments 
-            ? Object.keys(comments).map((key) => (
-                <div className="comment" key={key}>
-                  <div className="comment-content">
-                    <AccountCircle className="icon"/>
-                    {comments[key].comment}
-                  </div>
-                  <ActionButton
-                    fn={deleteComment.bind(this, key)}
-                    text="delete"
-                    color="primary"
-                    className="delete"
-                    size="small"
-                    variant="text"
-                    style={{fontSize:"10px"}}
-                  />
+        { comments 
+          ? Object.keys(comments).map((key) => (
+              <div className="comment" key={key}>
+                <div className="comment-content">
+                  <AccountCircle className="icon"/>
+                  {comments[key].comment}
                 </div>
-              ))
-            : null
+                <ActionButton
+                  fn={deleteComment.bind(this, key)}
+                  text="delete"
+                  color="primary"
+                  className="delete"
+                  size="small"
+                  variant="text"
+                  style={{fontSize:"10px"}}
+                />
+              </div>
+            ))
+          : null
         }
       </div>
         { showCommentForm
