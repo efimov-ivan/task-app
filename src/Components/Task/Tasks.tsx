@@ -1,22 +1,33 @@
-import React, { useState, Fragment } from "react";
-import TaskCard from "./TaskCard";
-import TaskForm from "./TaskForm";
-import MyDialog from "../../UI/MyDialog";
-import Add from "@material-ui/icons/Add";
+import React, { useState, Fragment } from "react"
+import TaskCard from "./TaskCard"
+import TaskForm from "./TaskForm"
+import MyDialog from "../../UI/MyDialog"
+import Add from "@material-ui/icons/Add"
 
-const Tasks = ({ tasks, col }) => {
+type TasksProps = {
+  tasks: {
+    title: string
+    content: string
+    order: number
+    col: number
+    key: string
+  }[],
+  col: number
+}
 
-  const [openModal, setOpenModal] = useState(false);
-  const [action, setAction] = useState(false);
-  const [currentTask, setCurrentTask] = useState({});
+const Tasks: React.FC<TasksProps> = ({tasks, col}) => {
 
-  const showTask = (task) => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [action, setAction] = useState<string>('');
+  const [currentTask, setCurrentTask] = useState<{}>({});
+
+  const showTask = (task: {}) => {
     setCurrentTask(task)
     setAction('showTask')
     setOpenModal(true);
   }
 
-  const addTask = e => {
+  const addTask = (e: any) => {
     setAction(e);
     setOpenModal(true);
   };
@@ -25,7 +36,7 @@ const Tasks = ({ tasks, col }) => {
     setOpenModal(false);
   };
 
-  const returnHeadings = (col) => {
+  const returnHeadings = (col: number) => {
     switch(col){
       case 0:
         return <h3>Completed</h3>
@@ -80,7 +91,7 @@ const Tasks = ({ tasks, col }) => {
       </MyDialog>
 
     </div>
-  );
-};
+  )
+}
 
-export default Tasks;
+export default Tasks

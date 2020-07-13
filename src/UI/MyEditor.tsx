@@ -1,11 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-function MyEditor({setFormValues, formValues}) {
+type PropsType = {
+  setFormValues: any,
+  formValues: {
+    title: string,
+    content: string
+  }
+}
+
+const MyEditor: React.FC<PropsType> = ({setFormValues, formValues}) => {
   
-  let defaultContent = ''
+  let defaultContent: any = ''
   if(formValues.content === ''){
     defaultContent = EditorState.createEmpty()
   } else {

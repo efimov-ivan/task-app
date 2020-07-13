@@ -1,17 +1,26 @@
+
+// import React from "react"
 import { decorate, observable, action } from "mobx";
-// import findKey from "lodash-es/findKey";
 import axios from "axios";
 
-class Store {
+type Task = {
+  title: string,
+  content: string,
+  col: number,
+  key: string,
+  order: number
+}
 
-  tasks = []
-  loading = true
-  comments = []
-  loadingComments = true
+class Store{
+
+  @observable tasks: Task[] = []
+  @observable loading: boolean = true
+  @observable comments: any
+  @observable loadingComments: boolean = true
 
   // TASKS
   getTasks() {
-    const tasks = []
+    const tasks: Task[] = []
     axios.get("https://my-tasks-797df.firebaseio.com/tasks.json")
       .then(response => {
         for(let key in response.data){
@@ -22,29 +31,30 @@ class Store {
     })
   }
 
-  async addTask(task) {
+  async addTask(task: any) {
     await axios.post("https://my-tasks-797df.firebaseio.com/tasks.json", {
-      order: 0,
+      order: task.order,
       title: task.title,
       content: task.content,
-      col: task.col
+      col: task.col,
+      key: ''
     });
     this.getTasks()
   }
 
-  async updateTask(task){
+  async updateTask(task: any){
     await axios.put(`https://my-tasks-797df.firebaseio.com/tasks/${task.key}.json`, {...task});
     this.getTasks()
   }
 
-  async deleteTask(id){
+  async deleteTask(id: string){
     await axios.delete(`https://my-tasks-797df.firebaseio.com/tasks/${id}.json`);
     this.deleteComments(id)
     this.getTasks()
   }
 
   // COMMENTS
-  async getComments(ID, showLoading = true) {
+  async getComments(ID: string, showLoading: boolean = true) {
     this.loadingComments = showLoading
     // const comments = []
     await axios.get(`https://my-tasks-797df.firebaseio.com/comments/${ID}.json`)
@@ -57,26 +67,26 @@ class Store {
     })
   }
 
-  async postComment(taskId, comment){
+  async postComment(taskId: string, comment: {}){
     await axios.post(`https://my-tasks-797df.firebaseio.com/comments/${taskId}.json`, {comment});
     this.getComments(taskId, false)
   }
 
-  async deleteComments(taskId, id = ''){
+  async deleteComments(taskId: string, id: string = ''){
     await axios.delete(`https://my-tasks-797df.firebaseio.com/comments/${taskId}/${id}.json`);
     this.getComments(taskId, false)
   }
 
 }
 
-Store = decorate(Store, {
-  tasks: observable,
-  loading: observable,
-  comments: observable,
-  loadingComments: observable,
-  addTask: action,
-  getTasks: action,
-  getComments: action
-});
+// Store = decorate(Store, {
+//   tasks: observable,
+//   loading: observable,
+//   comments: observable,
+//   loadingComments: observable,
+//   addTask: action,
+//   getTasks: action,
+//   getComments: action
+// });
 
-export default new Store();
+export const store  = new Store()

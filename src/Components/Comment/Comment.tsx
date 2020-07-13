@@ -4,11 +4,12 @@ import Button from "@material-ui/core/Button"
 import {AddComment, AccountCircle} from '@material-ui/icons'
 import ActionButton from '../../UI/ActionButton'
 import TextField from "@material-ui/core/TextField"
-import store from "../../store"
+import {store} from "../../store/index"
 
-const Comment = ({taskKey}) => {
+const Comment: React.FC<{taskKey: string}> = ({taskKey}) => {
 
   const { comments } = store;
+  console.log(typeof comments)
 
   const [showCommentForm, setShowCommentForm] = useState(false)
 
@@ -21,7 +22,7 @@ const Comment = ({taskKey}) => {
     }
   }
 
-  const deleteComment = (commentKey) => {
+  const deleteComment = (commentKey: string) => {
     store.deleteComments(taskKey, commentKey)
   }
 
@@ -36,7 +37,7 @@ const Comment = ({taskKey}) => {
                   {comments[key].comment}
                 </div>
                 <ActionButton
-                  fn={deleteComment.bind(this, key)}
+                  fn={() => deleteComment(key)}
                   text="delete"
                   color="primary"
                   className="delete"

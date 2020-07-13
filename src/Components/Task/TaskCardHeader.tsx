@@ -3,15 +3,20 @@ import ActionButton from '../../UI/ActionButton'
 import {Select, CardHeader, MenuItem } from '@material-ui/core'
 import {Delete, Save} from '@material-ui/icons'
 import { observer } from "mobx-react"
-import store from "../../store"
+import {store} from "../../store/index"
 
-const TaskCardHeader = ({formValues, task, closeDialog}) => {
+type TaskCardHeaderType = {
+  formValues: any,
+  task: any,
+  closeDialog: any
+}
+
+const TaskCardHeader: React.FC<TaskCardHeaderType> = ({formValues, task, closeDialog}) => {
 
   const [disableButton, setDisableButton] = useState({move:false,update:false,delete:false})
-
   const [moveTo, setMoveTo] = useState(task.col)
 
-  const moveTask = e => {
+  const moveTask = (e: React.ChangeEvent<{name?: string | undefined;value: unknown;}>, child: React.ReactNode) => {
     setMoveTo(e.target.value)
     updateTask({col: e.target.value})
     closeDialog()
@@ -22,27 +27,39 @@ const TaskCardHeader = ({formValues, task, closeDialog}) => {
     closeDialog();
   };
 
-  const updateTask = (values) => {
+  const updateTask = (values: {}) => {
     store.updateTask({...task, ...values});
     setDisableButton({move:false,update:false,delete:false})
   };
 
-  const SelectMoveItems = () => {
-    const items = {
-      'Move to': 3, 
-      'Tasks': 1,
-      'Question': 2,
-      'Completed': 0,
-    }
-    return Object.keys(items).map((val, i) => (
-      <MenuItem 
-        value={items[val]} 
-        key={i}
-        disabled={items[val] === 3 || items[val] === task.col }
-      >
-        {val}
-      </MenuItem>
-    ))
+  const SelectMoveItems = (): any => {
+    const items: {value: number, name: string}[] = [
+      {
+        value: 3,
+        name: 'Moveto'
+      },
+      {
+        value: 1,
+        name: 'Tasks'
+      },
+      {
+        value: 2,
+        name: 'Question'
+      },
+      {
+        value: 0,
+        name: 'Completed'
+      }
+    ]
+    return items.map(({value, name}) => {
+      return <MenuItem 
+              value={value}
+              key={value}
+              disabled={value === 3 || value === task.col}
+            >
+              {name}
+            </MenuItem>
+    })
   }
 
   return (

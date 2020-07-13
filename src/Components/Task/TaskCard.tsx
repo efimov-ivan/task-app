@@ -3,21 +3,26 @@ import TaskCardHeader from './TaskCardHeader'
 import Comment from '../Comment/Comment'
 import MyEditor from '../../UI/MyEditor'
 import {CardContent, DialogTitle, DialogContent, TextField, CircularProgress} from '@material-ui/core'
-import store from "../../store"
+import {store} from "../../store/index"
 import { observer } from "mobx-react"
 
-const TaskCard = props => {
+type TaskCardType = {
+  handleClose: () => void,
+  task: any
+}
+
+const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {
 
   const { loadingComments } = store;
 
   const [formValues, setFormValues] = useState({
-    title: props.task.title,
-    content: props.task.content,
+    title: task.title,
+    content: task.content,
     comment: ""
   });
 
   useEffect(() => {
-    store.getComments(props.task.key);
+    store.getComments(task.key);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -25,8 +30,8 @@ const TaskCard = props => {
     <Fragment>
       <DialogTitle>
         <TaskCardHeader 
-          task={props.task}
-          closeDialog={props.handleClose}
+          task={task}
+          closeDialog={handleClose}
           formValues={formValues}
         />
       </DialogTitle>
@@ -43,12 +48,12 @@ const TaskCard = props => {
                 onChange={e => setFormValues({ ...formValues, title: e.target.value })}
               />
               <MyEditor setFormValues={setFormValues} formValues={formValues}/>
-              <Comment taskKey={props.task.key}/>
+              <Comment taskKey={task.key}/>
             </CardContent>
           </DialogContent>
       }
     </Fragment>
-  );
-};
+  )
+}
 
 export default observer(TaskCard)
