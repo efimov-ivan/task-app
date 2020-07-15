@@ -6,7 +6,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 type PropsType = {
   setFormValues: any,
   formValues: {
-    title: string,
     content: string
   }
 }

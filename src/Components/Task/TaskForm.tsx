@@ -1,39 +1,31 @@
 import React, { useState } from "react"
+import { observer } from "mobx-react"
+import {Save} from '@material-ui/icons'
 import {DialogTitle, CardHeader, DialogContent, TextField} from "@material-ui/core";
-import {Save} from '@material-ui/icons';
 import ActionButton from '../../UI/ActionButton'
 import MyEditor from '../../UI/MyEditor'
 import { store } from "../../store/index"
-import { observer } from "mobx-react"
+import {TaskType} from "../../store/types"
+import {taskInit} from "../../store/initialStates"
 
 type TaskFormProps = {
   col: number,
   handleClose: () => void
 }
 
-type FormValuesType = {
-  title: string,
-  content: string,
-  col?: number,
-  key?: string,
-  order?: number
-}
-
 const TaskForm: React.FC<TaskFormProps> = ({handleClose, col}) => {
-  const [formValues, setFormValues] = useState<FormValuesType>({
-    title: '',
-    content: '',
-    col: col,
-    key: '',
-    order: 0
-  })
+  const [formValues, setFormValues] = useState<TaskType>({...taskInit, col})
 
   const handleSaveTask = () => {
     if(formValues.title) {
       store.addTask(formValues);
-      setFormValues({ title: '', content: '' });
+      setFormValues(taskInit);
       handleClose();
     }
+  }
+
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues({ ...formValues, title: event.target.value })
   }
 
   return (
@@ -60,7 +52,7 @@ const TaskForm: React.FC<TaskFormProps> = ({handleClose, col}) => {
           label="Title"
           name="title"
           variant="outlined"
-          onChange={e => setFormValues({ ...formValues, title: e.target.value })}
+          onChange={changeHandler}
           value={formValues.title}
         />
         <MyEditor setFormValues={setFormValues} formValues={formValues}/>

@@ -8,8 +8,7 @@ import {store} from "../../store/index"
 
 const Comment: React.FC<{taskKey: string}> = ({taskKey}) => {
 
-  const { comments } = store;
-  console.log(typeof comments)
+  const { comments } = store
 
   const [showCommentForm, setShowCommentForm] = useState(false)
 

@@ -1,26 +1,17 @@
-
-// import React from "react"
-import { decorate, observable, action } from "mobx";
-import axios from "axios";
-
-type Task = {
-  title: string,
-  content: string,
-  col: number,
-  key: string,
-  order: number
-}
+import {observable} from "mobx"
+import axios from "axios"
+import {TaskType} from "./types"
 
 class Store{
 
-  @observable tasks: Task[] = []
+  @observable tasks: TaskType[] = []
   @observable loading: boolean = true
   @observable comments: any
   @observable loadingComments: boolean = true
 
   // TASKS
   getTasks() {
-    const tasks: Task[] = []
+    const tasks: TaskType[] = []
     axios.get("https://my-tasks-797df.firebaseio.com/tasks.json")
       .then(response => {
         for(let key in response.data){
@@ -31,14 +22,8 @@ class Store{
     })
   }
 
-  async addTask(task: any) {
-    await axios.post("https://my-tasks-797df.firebaseio.com/tasks.json", {
-      order: task.order,
-      title: task.title,
-      content: task.content,
-      col: task.col,
-      key: ''
-    });
+  async addTask(task: TaskType) {
+    await axios.post("https://my-tasks-797df.firebaseio.com/tasks.json", {...task});
     this.getTasks()
   }
 
@@ -56,12 +41,8 @@ class Store{
   // COMMENTS
   async getComments(ID: string, showLoading: boolean = true) {
     this.loadingComments = showLoading
-    // const comments = []
     await axios.get(`https://my-tasks-797df.firebaseio.com/comments/${ID}.json`)
       .then(response => {
-        // for(let key in response.data){
-        //   comments.push({...response.data[key]})
-        // }
         this.comments = response.data
         this.loadingComments = false
     })

@@ -3,15 +3,11 @@ import TaskCard from "./TaskCard"
 import TaskForm from "./TaskForm"
 import MyDialog from "../../UI/MyDialog"
 import Add from "@material-ui/icons/Add"
+import {TaskType} from "../../store/types"
+import {taskInit} from "../../store/initialStates"
 
 type TasksProps = {
-  tasks: {
-    title: string
-    content: string
-    order: number
-    col: number
-    key: string
-  }[],
+  tasks: TaskType[],
   col: number
 }
 
@@ -19,15 +15,15 @@ const Tasks: React.FC<TasksProps> = ({tasks, col}) => {
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [action, setAction] = useState<string>('');
-  const [currentTask, setCurrentTask] = useState<{}>({});
+  const [currentTask, setCurrentTask] = useState<TaskType>(taskInit);
 
-  const showTask = (task: {}) => {
+  const showTask = (task: TaskType) => {
     setCurrentTask(task)
     setAction('showTask')
     setOpenModal(true);
   }
 
-  const addTask = (e: any) => {
+  const addTask = (e: string) => {
     setAction(e);
     setOpenModal(true);
   };

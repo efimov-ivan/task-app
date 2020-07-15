@@ -1,24 +1,22 @@
 import React, {useState} from 'react'
+import {store} from "../../store/index"
+import {observer} from "mobx-react"
 import ActionButton from '../../UI/ActionButton'
 import {Select, CardHeader, MenuItem } from '@material-ui/core'
 import {Delete, Save} from '@material-ui/icons'
-import { observer } from "mobx-react"
-import {store} from "../../store/index"
+import {TaskType} from "../../store/types"
 
 type TaskCardHeaderType = {
-  formValues: any,
-  task: any,
+  task: TaskType,
   closeDialog: any
 }
 
-const TaskCardHeader: React.FC<TaskCardHeaderType> = ({formValues, task, closeDialog}) => {
+const TaskCardHeader: React.FC<TaskCardHeaderType> = ({task, closeDialog}) => {
 
   const [disableButton, setDisableButton] = useState({move:false,update:false,delete:false})
-  const [moveTo, setMoveTo] = useState(task.col)
 
-  const moveTask = (e: React.ChangeEvent<{name?: string | undefined;value: unknown;}>, child: React.ReactNode) => {
-    setMoveTo(e.target.value)
-    updateTask({col: e.target.value})
+  const selectHandler = (event: React.ChangeEvent<{name?: string | undefined; value: unknown;}>) =>  {
+    updateTask({col: event.target.value})
     closeDialog()
   }
 
@@ -68,12 +66,12 @@ const TaskCardHeader: React.FC<TaskCardHeaderType> = ({formValues, task, closeDi
     title="Wednesday, July 1, 2020"
     action={
       <div>
-        <Select value={moveTo} variant="outlined" onChange={moveTask} className="action-button" disabled={disableButton.move}>
+        <Select value={task.col} variant="outlined" onChange={selectHandler} className="action-button" disabled={disableButton.move}>
           {SelectMoveItems()}
         </Select>
         <ActionButton 
           icon={<Save />} 
-          fn={updateTask.bind(true, formValues)}
+          fn={updateTask.bind(true, task)}
           text="update"
           className="action-button"
           disabled={disableButton.update}
