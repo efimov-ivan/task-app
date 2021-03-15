@@ -28,6 +28,7 @@ const TaskCardHeader: React.FC<TaskCardHeaderType> = ({task, closeDialog}) => {
   const updateTask = (values: {}) => {
     store.updateTask({...task, ...values});
     setDisableButton({move:false,update:false,delete:false})
+    closeDialog()
   };
 
   const SelectMoveItems = (): any => {

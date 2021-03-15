@@ -16,7 +16,7 @@ const App: React.FC = () => {
     <div className="App container">
       { loading
         ? <div className="loading"><CircularProgress/></div> 
-        : colsCount.map( i =>
+        : colsCount.map(i =>
             <div className="column" key={i}>
               <Tasks tasks={tasks.filter(task => task.col === i)} col={i} />
             </div>

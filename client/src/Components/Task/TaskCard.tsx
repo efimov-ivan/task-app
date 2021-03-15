@@ -12,8 +12,7 @@ type TaskCardType = {
   task: TaskType
 }
 
-const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {
-
+const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {  
   const { loadingComments } = store;
 
   const [formValues, setFormValues] = useState<TaskType>({...task});
@@ -23,7 +22,7 @@ const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {
   }
 
   useEffect(() => {
-    store.getComments(task.key);
+    store.getComments(task._id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,7 +47,7 @@ const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {
                 onChange={changeHandler}
               />
               <MyEditor setFormValues={setFormValues} formValues={formValues}/>
-              <Comment taskKey={task.key}/>
+              <Comment taskKey={task._id}/>
             </CardContent>
           </DialogContent>
       }

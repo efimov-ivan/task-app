@@ -3,5 +3,6 @@ export const taskInit = {
     content: '',
     order: 0,
     col: 0,
-    key: ''
+    key: '',
+    _id: ''
 }
