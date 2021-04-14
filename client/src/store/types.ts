@@ -4,4 +4,5 @@ export type TaskType = {
     order: number
     col: number
     key: string
+    _id: string
 }
