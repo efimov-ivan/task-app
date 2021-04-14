@@ -1,5 +1,5 @@
 import {observable} from "mobx"
-import axios from "axios"
+// import axios from "axios"
 import {TaskType} from "./types"
 import apis from '../api'
 
@@ -24,6 +24,7 @@ class Store{
   }
 
   async addTask(task: TaskType) {
+    console.log(task);
     await apis.addTask(task)
     this.getTasks()
   }
