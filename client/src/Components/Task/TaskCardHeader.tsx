@@ -2,26 +2,26 @@ import React, {useState} from 'react'
 import {store} from "../../store/index"
 import {observer} from "mobx-react"
 import ActionButton from '../../UI/ActionButton'
-import {Select, CardHeader, MenuItem } from '@material-ui/core'
-import {Delete, Save} from '@material-ui/icons'
+import {Select, SelectChangeEvent, CardHeader, MenuItem } from '@mui/material'
+import {Delete, Save} from '@mui/icons-material'
 import {TaskType} from "../../store/types"
 
 type TaskCardHeaderType = {
   task: TaskType,
-  closeDialog: any
+  closeDialog: () => void,
 }
 
 const TaskCardHeader: React.FC<TaskCardHeaderType> = ({task, closeDialog}) => {
 
   const [disableButton, setDisableButton] = useState({move:false,update:false,delete:false})
 
-  const selectHandler = (event: React.ChangeEvent<{name?: string | undefined; value: unknown;}>) =>  {
+  const selectHandler = (event: SelectChangeEvent<number>, child: React.ReactNode) =>  {
     updateTask({col: event.target.value})
     closeDialog()
   }
 
   const deleteTask = () => {
-    store.deleteTask(task.key);
+    store.deleteTask(task._id);
     closeDialog();
   };
 
@@ -31,7 +31,7 @@ const TaskCardHeader: React.FC<TaskCardHeaderType> = ({task, closeDialog}) => {
     closeDialog()
   };
 
-  const SelectMoveItems = (): any => {
+  const SelectMoveItems = () => {
     const items: {value: number, name: string}[] = [
       {
         value: 3,
@@ -67,7 +67,11 @@ const TaskCardHeader: React.FC<TaskCardHeaderType> = ({task, closeDialog}) => {
     title="Wednesday, July 1, 2020"
     action={
       <div>
-        <Select value={task.col} variant="outlined" onChange={selectHandler} className="action-button" disabled={disableButton.move}>
+        <Select 
+          value={task.col} 
+          variant="outlined" 
+          onChange={selectHandler} 
+          className="action-button" disabled={disableButton.move}>
           {SelectMoveItems()}
         </Select>
         <ActionButton 

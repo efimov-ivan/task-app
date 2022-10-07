@@ -1,28 +1,15 @@
 import React, {useState, useEffect } from "react"
-import Button from "@material-ui/core/Button"
+import {Button} from "@mui/material"
+import {ActionButtonType} from '../store/types'
 
-type ActionButton = {
-  icon?: React.ReactNode,
-  fn: () => void,
-  text: string,
-  color?: "inherit" | "primary" | "secondary" | "default" | undefined,
-  className?: string,
-  style?: React.CSSProperties | undefined,
-  size?: "small" | "medium" | "large" | undefined,
-  variant?: "text" | "outlined" | "contained" | undefined,
-  disabled?: boolean,
-  disableButtons?: () => void,
-  clearDisableButton?: () => void
-}
+const ActionButton: React.FC<ActionButtonType> = ({icon, fn, text, color = 'primary', className, style, size = 'small', variant, disabled, disableButtons, clearDisableButton}) => {
 
-const ActionButton: React.FC<ActionButton> = ({icon, fn, text, color, className, style, size = 'small', variant, disabled, disableButtons, clearDisableButton}) => {
-
-  const [buttonText, setButtonText] = useState(text);
-  const [isActive, setIsActive] = useState(false);
+  const [buttonText, setButtonText] = useState<string>(text);
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   useEffect(() => {
     let interval: any = null;
-    let i = 0
+    let i: number = 0;
     if (isActive) {
       if(disableButtons) {
         disableButtons()
@@ -36,7 +23,7 @@ const ActionButton: React.FC<ActionButton> = ({icon, fn, text, color, className,
           setIsActive(false);
         }
       }, 1000);
-    } else if (!isActive) {
+    } else {
       clearInterval(interval);
       setButtonText(text);
       if(clearDisableButton) {
@@ -51,7 +38,7 @@ const ActionButton: React.FC<ActionButton> = ({icon, fn, text, color, className,
     <Button 
       startIcon={icon}
       size={size ? size : "small"}
-      color={color ? color: 'primary'}
+      color={color}
       variant={variant ? variant : 'outlined'}
       disabled={disabled}
       style={style ? style : {}}

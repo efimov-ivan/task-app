@@ -2,7 +2,7 @@ import React, { useState, Fragment } from "react"
 import TaskCard from "./TaskCard"
 import TaskForm from "./TaskForm"
 import MyDialog from "../../UI/MyDialog"
-import Add from "@material-ui/icons/Add"
+import {Add} from "@mui/icons-material"
 import {TaskType} from "../../store/types"
 import {taskInit} from "../../store/initialStates"
 
@@ -12,11 +12,11 @@ type TasksProps = {
 }
 
 const Tasks: React.FC<TasksProps> = ({tasks, col}) => {
-
+  
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [action, setAction] = useState<string>('');
   const [currentTask, setCurrentTask] = useState<TaskType>(taskInit);
-
+  
   const showTask = (task: TaskType) => {
     setCurrentTask(task)
     setAction('showTask')

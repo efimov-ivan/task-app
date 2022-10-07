@@ -4,7 +4,7 @@ import {observer} from "mobx-react"
 import TaskCardHeader from './TaskCardHeader'
 import Comment from '../Comment/Comment'
 import MyEditor from '../../UI/MyEditor'
-import {CardContent, DialogTitle, DialogContent, TextField, CircularProgress} from '@material-ui/core'
+import {CardContent, DialogTitle, DialogContent, TextField, CircularProgress} from '@mui/material'
 import {TaskType} from "../../store/types"
 
 type TaskCardType = {
@@ -14,7 +14,6 @@ type TaskCardType = {
 
 const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {  
   const { loadingComments } = store;
-
   const [formValues, setFormValues] = useState<TaskType>({...task});
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +21,7 @@ const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {
   }
 
   useEffect(() => {
-    store.getComments(task._id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   store.getComments(task._id);
   }, []);
 
   return (
@@ -47,7 +45,7 @@ const TaskCard: React.FC<TaskCardType> = ({handleClose, task}) => {
                 onChange={changeHandler}
               />
               <MyEditor setFormValues={setFormValues} formValues={formValues}/>
-              <Comment taskKey={task._id}/>
+              <Comment taskID={task._id}/>
             </CardContent>
           </DialogContent>
       }

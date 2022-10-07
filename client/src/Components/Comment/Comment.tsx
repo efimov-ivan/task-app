@@ -1,24 +1,24 @@
 import React, { Fragment, useState } from 'react'
 import {store} from "../../store/index"
 import {observer} from "mobx-react"
-import Button from "@material-ui/core/Button"
-import {AddComment, AccountCircle} from '@material-ui/icons'
+import {Button} from "@mui/material"
+import {AddComment, AccountCircle} from '@mui/icons-material';
 import ActionButton from '../../UI/ActionButton'
-// import TextField from "@material-ui/core/TextField"
 import CommentForm from './CommentForm'
+import {taskID, commentID} from '../../store/types'
 
 type PropsType = {
-  taskKey: string
+  taskID: taskID
 }
 
-const Comment: React.FC<PropsType> = ({taskKey}) => {
+const Comment: React.FC<PropsType> = ({taskID}) => {
 
   const { comments } = store
 
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false)
 
-  const deleteComment = (ID: string) => {
-    store.deleteComment(ID)
+  const deleteComment = (ID: commentID) => {
+    store.deleteComment(taskID, ID)
   }
 
   return (
@@ -46,7 +46,7 @@ const Comment: React.FC<PropsType> = ({taskKey}) => {
         }
       </div>
       { showCommentForm
-        ? <CommentForm taskKey={taskKey}></CommentForm>
+        ? <CommentForm taskID={taskID}></CommentForm>
         : <div className="text-center">
             <Button 
               size="small" 

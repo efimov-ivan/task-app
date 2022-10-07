@@ -1,67 +1,74 @@
-import {observable} from "mobx"
-// import axios from "axios"
-import {TaskType} from "./types"
+import {observable, makeObservable} from "mobx";
+import {TaskType, taskID, commentID} from "./types"
 import apis from '../api'
 
 class Store{
+  tasks: TaskType[] = [];
+  loading: boolean = true;
+  comments: any;
+  loadingComments: boolean = true;
 
-  @observable tasks: TaskType[] = []
-  @observable loading: boolean = true
-  @observable comments: any
-  @observable loadingComments: boolean = true
+  constructor(){
+    makeObservable(this, {
+        tasks: observable,
+        loading: observable,
+        comments: observable,
+        loadingComments: observable,
+    });
+  }
 
   // TASKS
   async getTasks() {
-    const tasks: TaskType[] = []
+    let tasks: TaskType[] = []
     await apis.getAllTasks()
-      .then(response => {
-        for(let key in response.data.data){
-          tasks.push({...response.data.data[key], key: key})
-        }
-        this.tasks = tasks.reverse()
-        this.loading = false
+    .then(response => {
+      for(let key in response.data.data){
+        tasks.push({...response.data.data[key], key: key})
+      }       
+      this.loading = false
+      this.tasks = tasks.reverse()
     })
   }
 
   async addTask(task: TaskType) {
-    console.log(task);
     await apis.addTask(task)
     this.getTasks()
   }
 
-  async updateTask(task: any){
+  async updateTask(task: TaskType){
     await apis.updateTask(task._id, task)
     this.getTasks()
   }
 
-  async deleteTask(id: string){
+  async deleteTask(id: taskID){
     await apis.deleteTask(id)
-    // this.deleteComments(id)
+    this.deleteTaskComments(id)
     this.getTasks()
   }
 
   // COMMENTS
-  async getComments(ID: string, showLoading: boolean = true) {
+  async getComments(ID: taskID, showLoading: boolean = true) {
     this.loadingComments = showLoading
     await apis.getAllComments(ID)
       .then(responce => {
-        console.log('responce', responce);
-        
         this.comments = responce.data.data
         this.loadingComments = false
       })
   }
 
-  async postComment(taskId: string, comment: string){
+  async postComment(taskId: taskID, comment: string){
     await apis.addComment({taskId, comment})
     this.getComments(taskId, false)
   }
 
-  async deleteComment(taskId: string){
-    await apis.deleteComment(taskId)
-    this.getComments(taskId)
+  async deleteComment(taskId: taskID, commentId: commentID){
+    await apis.deleteComment(commentId)
+    this.getComments(taskId, false)
   }
 
+  async deleteTaskComments(taskId: taskID){
+    await apis.deleteTaskComments(taskId)
+  }
 }
 
-export const store  = new Store()
+export const store = new Store();

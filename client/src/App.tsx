@@ -2,16 +2,18 @@ import React, { useEffect } from "react"
 import {store} from "./store/index"
 import {observer} from "mobx-react"
 import Tasks from "./Components/Task/Tasks"
-import {CircularProgress} from '@material-ui/core'
+import {CircularProgress} from '@mui/material'
 
 const App: React.FC = () => {
-  const { tasks, loading } = store
-  const colsCount: number[] = [0, 1, 2]
+  const { tasks, loading } = store;
+  const colsCount: number[] = [0, 1, 2];
 
   useEffect(() => {
-    store.getTasks()
+    store.getTasks();
   }, [])
 
+  console.log(loading);
+  
   return (
     <div className="App container">
       { loading

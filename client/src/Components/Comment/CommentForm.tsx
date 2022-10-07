@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { store } from "../../store/index"
 import { observer } from "mobx-react"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
-import { AddComment } from '@material-ui/icons'
+import {TextField, Button} from "@mui/material";
+import { AddComment } from '@mui/icons-material';
+import {taskID} from '../../store/types'
 
 type PropsType = {
-    taskKey: string
+    taskID: taskID
 }
 
-const CommentForm: React.FC<PropsType> = ({ taskKey }) => {
+const CommentForm: React.FC<PropsType> = ({ taskID }) => {
 
     const [commentValue, setCommentValue] = useState<string>('')
 
     const postComment = () => {
         if (commentValue) {
-            store.postComment(taskKey, commentValue);
+            store.postComment(taskID, commentValue);
             setCommentValue('')
         }
     }

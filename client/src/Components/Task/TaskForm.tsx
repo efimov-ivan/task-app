@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import {Save} from '@material-ui/icons'
-import {DialogTitle, CardHeader, DialogContent, TextField} from "@material-ui/core";
+import {Save} from '@mui/icons-material'
+import {DialogTitle, CardHeader, DialogContent, TextField} from "@mui/material";
 import ActionButton from '../../UI/ActionButton'
 import MyEditor from '../../UI/MyEditor'
 import { store } from "../../store/index"
-import {TaskType} from "../../store/types"
 import {taskInit} from "../../store/initialStates"
+import {TaskType} from '../../store/types'
 
 type TaskFormProps = {
   col: number,
@@ -53,7 +53,7 @@ const TaskForm: React.FC<TaskFormProps> = ({handleClose, col}) => {
           name="title"
           variant="outlined"
           onChange={changeHandler}
-          value={formValues.title}
+          value={formValues.title ? formValues.title : ''}
         />
         <MyEditor setFormValues={setFormValues} formValues={formValues}/>
       </DialogContent>
