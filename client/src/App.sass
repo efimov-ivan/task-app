@@ -15,10 +15,22 @@ body
     padding: 20px 0 0
 
     &.container
-        display: grid
-        grid-template-columns: 1fr 1fr 1fr
-        grid-template-rows: 1fr
-        grid-gap: 2em
+        display: flex
+        flex-wrap: wrap
+        // display: grid
+        // grid-template-columns: 1fr 1fr 1fr
+        // grid-template-rows: 1fr
+        // grid-gap: 2em
+
+    .user-info
+        width: 100%
+        text-align: center
+
+        button
+            margin: 10px 10px 20px
+
+    > .column
+        width: 33.3%
 
     .tasks-box
         border-radius: 10px

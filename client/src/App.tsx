@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import {store} from "./store/index"
-import {observer} from "mobx-react"
+import {observer} from "mobx-react";
+import UserInfo from "./Components/User/UserInfo";
 import Tasks from "./Components/Task/Tasks"
 import {CircularProgress} from '@mui/material'
 
@@ -11,11 +12,12 @@ const App: React.FC = () => {
   useEffect(() => {
     store.getTasks();
   }, [])
-
-  console.log(loading);
   
   return (
     <div className="App container">
+
+      <UserInfo />
+
       { loading
         ? <div className="loading"><CircularProgress/></div> 
         : colsCount.map(i =>

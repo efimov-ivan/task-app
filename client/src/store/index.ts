@@ -19,15 +19,20 @@ class Store{
 
   // TASKS
   async getTasks() {
-    let tasks: TaskType[] = []
-    await apis.getAllTasks()
-    .then(response => {
-      for(let key in response.data.data){
-        tasks.push({...response.data.data[key], key: key})
-      }       
-      this.loading = false
-      this.tasks = tasks.reverse()
-    })
+    let tasks: TaskType[] = [];
+    try {
+      await apis.getAllTasks()
+      .then(response => {
+        for(let key in response.data.data){
+          tasks.push({...response.data.data[key], key: key})
+        }       
+        this.loading = false
+        this.tasks = tasks.reverse()
+      }) 
+    } catch (error) {
+      this.loading = false;
+      //this.tasks = [];
+    }
   }
 
   async addTask(task: TaskType) {
